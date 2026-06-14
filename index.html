@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>紫微斗数命盘 · 命理解读�?/title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/iztro@2.5.8/dist/iztro.min.js"></script>
+<style>
+:root {
+  --gold: #C8A96E;
+  --gold-light: #E8C97E;
+  --gold-dim: #8B7245;
+  --crimson: #9B2335;
+  --crimson-bright: #C42B3F;
+  --ink: #0A0A0F;
+  --ink-mid: #12121A;
+  --ink-light: #1C1C2A;
+  --ivory: #F2EBD9;
+  --ivory-dim: #B8AA90;
+  --teal: #3B7A85;
+  --teal-light: #5BA8B5;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { font-size: 16px; }
+body {
+  background: var(--ink);
+  color: var(--ivory);
+  font-family: 'Noto Serif SC', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(60,40,100,0.3) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(40,20,60,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 0%, rgba(155,35,53,0.1) 0%, transparent 50%);
+  pointer-events: none; z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4; pointer-events: none; z-index: 0;
+}
+.container {
+  position: relative; z-index: 1;
+  max-width: 960px; margin: 0 auto; padding: 20px 16px 60px;
+}
+.form-section {
+  max-width: 480px; margin: 0 auto;
+  padding: 60px 0;
+  animation: fadeDown 0.8s ease both;
+}
+.form-header { text-align: center; margin-bottom: 48px; }
+.form-eyebrow {
+  font-size: 10px; letter-spacing: 5px;
+  color: var(--gold-dim); margin-bottom: 14px;
+}
+.form-title {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: clamp(32px, 7vw, 52px);
+  color: var(--gold);
+  text-shadow: 0 0 40px rgba(200,169,110,0.3);
+}
+.form-desc {
+  font-size: 13px; color: var(--ivory-dim);
+  margin-top: 12px; line-height: 1.8;
+}
+.form-group { margin-bottom: 24px; }
+.form-label {
+  display: block; font-size: 11px;
+  letter-spacing: 3px; color: var(--gold-dim);
+  margin-bottom: 10px;
+}
+.form-row { display: flex; gap: 12px; }
+.form-row > * { flex: 1; }
+.toggle-group {
+  display: flex; gap: 2px;
+  background: rgba(200,169,110,0.06);
+  border: 1px solid rgba(200,169,110,0.15);
+  border-radius: 2px; padding: 2px;
+}
+.toggle-btn {
+  flex: 1; padding: 8px 12px;
+  text-align: center; cursor: pointer;
+  font-size: 13px; color: var(--ivory-dim);
+  font-family: inherit; background: none; border: none;
+  transition: all 0.2s; border-radius: 1px;
+}
+.toggle-btn.active {
+  background: rgba(200,169,110,0.15);
+  color: var(--gold);
+}
+.toggle-btn:hover { color: var(--ivory); }
+.input-field, select {
+  width: 100%; padding: 10px 14px;
+  background: rgba(200,169,110,0.04);
+  border: 1px solid rgba(200,169,110,0.15);
+  color: var(--ivory); font-size: 15px;
+  font-family: inherit; outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none; appearance: none;
+  border-radius: 2px;
+}
+.input-field:focus, select:focus { border-color: var(--gold); }
+.input-field::placeholder { color: rgba(200,169,110,0.2); }
+select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C8A96E' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+select option { background: var(--ink-mid); color: var(--ivory); }
+.submit-btn {
+  width: 100%; padding: 14px 24px;
+  background: linear-gradient(135deg, rgba(200,169,110,0.2), rgba(200,169,110,0.08));
+  border: 1px solid var(--gold-dim);
+  color: var(--gold); font-size: 14px;
+  font-family: inherit; letter-spacing: 4px;
+  cursor: pointer; transition: all 0.3s;
+  position: relative; overflow: hidden;
+  border-radius: 2px;
+}
+.submit-btn:hover {
+  background: linear-gradient(135deg, rgba(200,169,110,0.3), rgba(200,169,110,0.12));
+  border-color: var(--gold); box-shadow: 0 0 30px rgba(200,169,110,0.1);
+}
+.submit-btn.loading { opacity: 0.5; pointer-events: none; }
+.submit-btn.loading::after {
+  content: '�?; animation: pulse 1s infinite;
+}
+.chart-section { display: none; }
+.chart-section.visible { display: block; }
+.header {
+  text-align: center; padding: 40px 0 30px;
+  animation: fadeDown 0.8s ease both;
+}
+.header-eyebrow {
+  font-size: 10px; letter-spacing: 5px;
+  color: var(--gold-dim); margin-bottom: 14px;
+}
+.header-title {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: clamp(30px, 6vw, 52px);
+  color: var(--gold); line-height: 1.2;
+  text-shadow: 0 0 40px rgba(200,169,110,0.3);
+}
+.header-sub {
+  font-size: 13px; color: var(--ivory-dim);
+  margin-top: 10px; letter-spacing: 3px;
+}
+.back-btn {
+  display: inline-block; padding: 8px 20px;
+  font-size: 12px; color: var(--gold-dim);
+  cursor: pointer; letter-spacing: 2px;
+  border: 1px solid rgba(200,169,110,0.15);
+  background: rgba(200,169,110,0.04);
+  font-family: inherit; margin-bottom: 24px;
+  transition: border-color 0.2s;
+  border-radius: 2px;
+}
+.back-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+.divider {
+  display: flex; align-items: center; gap: 16px;
+  margin: 28px 0; opacity: 0.4;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold));
+}
+.divider::after { background: linear-gradient(to left, transparent, var(--gold)); }
+.divider span { font-size: 13px; color: var(--gold); }
+.info-bar {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: rgba(200,169,110,0.15);
+  border: 1px solid rgba(200,169,110,0.2);
+  margin-bottom: 36px;
+}
+.info-cell {
+  background: var(--ink-mid); padding: 16px 12px; text-align: center;
+}
+.info-cell-label { font-size: 9px; letter-spacing: 3px; color: var(--gold-dim); margin-bottom: 6px; }
+.info-cell-value { font-size: 15px; color: var(--gold); font-weight: 600; }
+.section-title {
+  font-size: 10px; letter-spacing: 4px; color: var(--gold-dim);
+  margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+}
+.section-title::after {
+  content: ''; flex: 1; height: 1px; background: rgba(200,169,110,0.2);
+}
+.palace-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, auto);
+  gap: 1px; background: rgba(200,169,110,0.1);
+  border: 1px solid rgba(200,169,110,0.15);
+  margin-bottom: 36px;
+}
+.palace {
+  background: var(--ink-mid); padding: 10px 8px;
+  min-height: 90px; position: relative;
+}
+.palace.active {
+  background: rgba(155,35,53,0.15);
+  border: 1px solid rgba(155,35,53,0.4); margin: -1px; z-index: 2;
+}
+.palace.current-limit {
+  background: rgba(59,122,133,0.12);
+  border: 1px solid rgba(91,168,181,0.3); margin: -1px; z-index: 2;
+}
+.palace-name { font-size: 9px; letter-spacing: 2px; color: var(--ivory-dim); opacity: 0.6; margin-bottom: 6px; }
+.palace-dizhi { position: absolute; top: 6px; right: 6px; font-size: 10px; color: var(--gold-dim); opacity: 0.4; }
+.palace-stars { display: flex; flex-direction: column; gap: 2px; }
+.star { font-size: 12px; color: var(--ivory); font-weight: 600; }
+.star.main { color: var(--gold); font-size: 13px; }
+.star.lu { color: #7CCC60; font-size: 10px; }
+.star.quan { color: #D4A848; font-size: 10px; }
+.star.ke { color: #7BA8F0; font-size: 10px; }
+.star.ji { color: #FF6B6B; font-size: 10px; }
+.star.minor { font-size: 10px; color: var(--ivory-dim); font-weight: 400; }
+.star.empty { font-size: 10px; color: var(--ivory-dim); opacity: 0.3; font-style: italic; }
+.palace-badge {
+  display: inline-block; font-size: 8px; padding: 1px 4px;
+  margin-top: 3px; letter-spacing: 1px;
+  border-radius: 1px;
+}
+.badge-ming { background: rgba(155,35,53,0.3); color: #FF6B6B; border: 1px solid rgba(155,35,53,0.5); }
+.badge-body { background: rgba(100,120,200,0.3); color: #7BA8F0; border: 1px solid rgba(100,120,200,0.5); }
+.badge-limit { background: rgba(59,122,133,0.3); color: var(--teal-light); border: 1px solid rgba(59,122,133,0.5); }
+.palace-center {
+  grid-column: 2 / 4; grid-row: 2 / 4;
+  background: rgba(10,10,15,0.85);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 16px; position: relative;
+}
+.center-bagua { font-size: 40px; opacity: 0.12; position: absolute; pointer-events: none; }
+.center-title {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: clamp(16px, 2.5vw, 22px);
+  color: var(--gold); margin-bottom: 6px; position: relative; z-index: 1;
+}
+.center-info {
+  font-size: 10px; color: var(--ivory-dim);
+  text-align: center; line-height: 1.8; position: relative; z-index: 1;
+}
+.four-hua-bar {
+  display: flex; gap: 2px; margin-top: 8px;
+  flex-wrap: wrap; justify-content: center;
+}
+.hua-tag {
+  font-size: 9px; padding: 2px 6px; letter-spacing: 1px;
+  border-radius: 1px;
+}
+.hua-lu { background: rgba(100,180,80,0.15); color: #7CCC60; border: 1px solid rgba(100,180,80,0.3); }
+.hua-quan { background: rgba(200,169,110,0.15); color: var(--gold); border: 1px solid rgba(200,169,110,0.3); }
+.hua-ke { background: rgba(80,120,200,0.15); color: #7BA8F0; border: 1px solid rgba(80,120,200,0.3); }
+.hua-ji { background: rgba(155,35,53,0.2); color: #FF6B6B; border: 1px solid rgba(155,35,53,0.4); }
+.reading-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-bottom: 36px;
+}
+.reading-card {
+  background: var(--ink-mid);
+  border: 1px solid rgba(200,169,110,0.1);
+  padding: 20px 18px; position: relative; overflow: hidden;
+}
+.reading-card::before {
+  content: attr(data-num);
+  position: absolute; right: 12px; top: 10px;
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 40px; color: var(--gold); opacity: 0.05;
+}
+.reading-card.full { grid-column: 1 / -1; }
+.reading-card.highlight { border-color: rgba(155,35,53,0.25); background: rgba(155,35,53,0.04); }
+.reading-card.teal-highlight { border-color: rgba(59,122,133,0.25); background: rgba(59,122,133,0.04); }
+.card-title { font-size: 10px; letter-spacing: 3px; color: var(--gold-dim); margin-bottom: 12px; }
+.card-stars-badge { font-size: 16px; color: var(--gold); font-weight: 600; margin-bottom: 8px; }
+.card-body { font-size: 13px; line-height: 1.9; color: var(--ivory-dim); }
+.card-body strong { color: var(--ivory); font-weight: 600; }
+.card-body em { color: var(--gold); font-style: normal; }
+.card-body .warn { color: #FF8C60; }
+.card-body .good { color: #7CCC60; }
+.calibration {
+  border: 1px solid rgba(200,169,110,0.2);
+  padding: 24px 20px;
+  background: linear-gradient(135deg, rgba(200,169,110,0.02), rgba(59,122,133,0.04));
+  margin-bottom: 36px;
+}
+.cal-title {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 18px; color: var(--gold); margin-bottom: 6px;
+}
+.cal-desc { font-size: 11px; color: var(--ivory-dim); margin-bottom: 18px; letter-spacing: 1px; }
+.cal-questions { display: flex; flex-direction: column; gap: 12px; }
+.cal-q { display: flex; gap: 12px; align-items: flex-start; }
+.cal-num {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 16px; color: rgba(200,169,110,0.3);
+  font-weight: 700; flex-shrink: 0; width: 24px;
+}
+.cal-text { font-size: 13px; color: var(--ivory); line-height: 1.7; padding-top: 2px; }
+.cal-text span { font-size: 10px; color: var(--ivory-dim); display: block; margin-top: 3px; }
+.hand-section {
+  background: var(--ink-mid);
+  border: 1px solid rgba(200,169,110,0.1);
+  padding: 24px 20px; margin-bottom: 36px;
+}
+.hand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+.hand-card {
+  padding: 14px; border: 1px solid rgba(200,169,110,0.08);
+  background: rgba(0,0,0,0.2);
+}
+.hand-card-title { font-size: 11px; color: var(--gold); margin-bottom: 6px; letter-spacing: 2px; }
+.hand-card-body { font-size: 11px; color: var(--ivory-dim); line-height: 1.8; }
+.conflict-tag {
+  display: inline-block; font-size: 8px; padding: 2px 6px;
+  margin-top: 4px; letter-spacing: 1px; border-radius: 1px;
+}
+.match { background: rgba(80,180,80,0.15); color: #7CCC60; border: 1px solid rgba(80,180,80,0.3); }
+.conflict { background: rgba(200,100,50,0.15); color: #FF9060; border: 1px solid rgba(200,100,50,0.3); }
+.footer {
+  text-align: center; padding: 30px 0;
+}
+.footer-quote {
+  font-family: 'Ma Shan Zheng', serif;
+  font-size: 16px; color: rgba(200,169,110,0.35);
+  letter-spacing: 3px; line-height: 1.8;
+}
+.footer-note {
+  font-size: 10px; color: rgba(200,169,110,0.18);
+  margin-top: 10px; letter-spacing: 2px;
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 620px) {
+  .container { padding: 12px 10px 40px; }
+  .form-section { padding: 30px 0; }
+  .header { padding: 24px 0 20px; }
+  .reading-grid { grid-template-columns: 1fr; }
+  .hand-grid { grid-template-columns: 1fr 1fr; }
+  .info-bar { grid-template-columns: repeat(2, 1fr); }
+  .palace { padding: 8px 6px; min-height: 76px; }
+  .palace-name { font-size: 8px; }
+  .palace-dizhi { font-size: 9px; top: 4px; right: 4px; }
+  .star { font-size: 11px; }
+  .star.main { font-size: 12px; }
+  .star.lu, .star.quan, .star.ke, .star.ji { font-size: 9px; }
+  .star.minor { font-size: 9px; }
+  .reading-card { padding: 16px 14px; }
+  .card-body { font-size: 12.5px; }
+  .calibration { padding: 18px 14px; }
+  .form-row { flex-direction: column; gap: 8px; }
+}
+@media (max-width: 380px) {
+  .palace-grid { gap: 0.5px; }
+  .palace { padding: 6px 4px; min-height: 64px; }
+  .star { font-size: 10px; }
+  .star.main { font-size: 11px; }
+  .center-title { font-size: 14px; }
+}
+.error-msg {
+  background: rgba(155,35,53,0.1);
+  border: 1px solid rgba(155,35,53,0.3);
+  padding: 16px 20px; margin: 16px 0;
+  color: #FF6B6B; font-size: 13px; line-height: 1.7;
+  border-radius: 2px;
+}
+.loading-spinner {
+  display: none; text-align: center; padding: 40px;
+}
+.loading-spinner.visible { display: block; }
+.spinner {
+  width: 32px; height: 32px; margin: 0 auto 16px;
+  border: 2px solid rgba(200,169,110,0.1);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="container" id="app">
+
+  <!-- INPUT FORM -->
+  <div class="form-section" id="formSection">
+    <div class="form-header">
+      <div class="form-eyebrow">紫微三合 × 中州�?× 手相互证</div>
+      <div class="form-title">命盘解读</div>
+      <div class="form-desc">输入生辰信息，生成完整的紫微斗数命盘报告</div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-label">历法选择</div>
+      <div class="toggle-group">
+        <button class="toggle-btn active" data-type="solar" onclick="setCalendar('solar')">公历</button>
+        <button class="toggle-btn" data-type="lunar" onclick="setCalendar('lunar')">农历</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-label">出生日期</div>
+      <input class="input-field" type="date" id="birthDate" value="2000-01-01" onchange="validateDate()">
+    </div>
+
+    <div class="form-group" id="lunarLeapGroup" style="display:none;">
+      <div class="form-label">农历闰月</div>
+      <div class="toggle-group">
+        <button class="toggle-btn active" data-type="noleap" onclick="setLeap(false)">�?/button>
+        <button class="toggle-btn" data-type="leap" onclick="setLeap(true)">�?/button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-label">出生时辰</div>
+      <div class="form-row">
+        <select id="birthHour">
+          <option value="0">早子�?(00:00-01:00)</option>
+          <option value="1" selected>丑时 (01:00-03:00)</option>
+          <option value="2">寅时 (03:00-05:00)</option>
+          <option value="3">卯时 (05:00-07:00)</option>
+          <option value="4">辰时 (07:00-09:00)</option>
+          <option value="5">巳时 (09:00-11:00)</option>
+          <option value="6">午时 (11:00-13:00)</option>
+          <option value="7">未时 (13:00-15:00)</option>
+          <option value="8">申时 (15:00-17:00)</option>
+          <option value="9">酉时 (17:00-19:00)</option>
+          <option value="10">戌时 (19:00-21:00)</option>
+          <option value="11">亥时 (21:00-23:00)</option>
+          <option value="12">晚子�?(23:00-00:00)</option>
+        </select>
+        <select id="birthGender">
+          <option value="male">�?/option>
+          <option value="female">�?/option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button class="submit-btn" id="submitBtn" onclick="calculateChart()">开始排�?/button>
+    </div>
+
+    <div id="errorContainer"></div>
+  </div>
+
+  <!-- CHART DISPLAY -->
+  <div class="chart-section" id="chartSection">
+    <button class="back-btn" onclick="backToForm()">�?返回重新输入</button>
+
+    <div class="header" id="chartHeader">
+      <div class="header-eyebrow">紫微三合 × 中州�?× 手相互证</div>
+      <div class="header-title">命盘解读</div>
+      <div class="header-sub" id="headerSub"></div>
+    </div>
+
+    <div class="divider"><span>�?/span></div>
+
+    <div class="section-title">基础信息</div>
+    <div class="info-bar" id="infoBar"></div>
+
+    <div class="section-title">十二宫位分布</div>
+    <div class="palace-grid" id="palaceGrid"></div>
+
+    <div class="section-title">命盘解读</div>
+    <div class="reading-grid" id="readingCards"></div>
+
+    <div class="divider"><span>�?/span></div>
+
+    <div class="calibration" id="calibration">
+      <div class="cal-title">校准问答</div>
+      <div class="cal-desc">当前盘准确度�?65�?5%。以下问题的反馈可以把准确度推到 85% 以上�?/div>
+      <div class="cal-questions" id="calQuestions"></div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-quote">命盘显示可能�?br>行动决定现实</div>
+      <div class="footer-note">象由心生 · 算命是对话，不是表演 · 准确度随沟通趋�?/div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let calendarType = 'solar';
+let isLeap = false;
+
+const STAR_MEANINGS = {
+  '紫微': { desc: '帝星·领袖星。自尊心强，有领袖气场。舒适感来自于居人之下�?, advantage: '统御力强，有主见，格局�?, risk: '孤高，好面子，不愿示�? },
+  '天机': { desc: '谋士星·智慧星。思维敏捷，善变，多学少精。永远在�?下一步怎么�?�?, advantage: '聪明，反应快，善于分析和策划', risk: '想太多做太少，容易变卦，焦虑倾向' },
+  '太阳': { desc: '光明星·付出星。热情，慷慨，爱面子，利他。照他人但自己会累�?, advantage: '热情大方，有感染力，乐于助人', risk: '过度付出，爱面子不愿求助，容易burnout' },
+  '武曲': { desc: '财星·将星。务实，果断，拼搏，重义。说干就干的实干家�?, advantage: '执行力强，有魄力，理财能力强', risk: '过于刚硬，不善于表达感情，孤独感' },
+  '天同': { desc: '福星·享受星。温和，乐观，重享受，不喜争斗。差不多就行的生活家�?, advantage: '人缘好，心态好，抗压能力强', risk: '缺乏进取心，容易满足现状，拖�? },
+  '廉贞': { desc: '囚星·桃花星。执着，有魅力，爱恨分明，不服输。一旦爱上就全力以�?, advantage: '有魅力，执着，有艺术天赋', risk: '过于执着，情绪化，容易走极端' },
+  '天府': { desc: '库星·财星。稳重，保守，善于积累，有福气。家里有粮不慌�?, advantage: '稳重可靠，善于理财，有包容力', risk: '过于保守，缺乏冒险精神，固执' },
+  '太阴': { desc: '月亮星·母性星。细腻，感性，内省，有艺术气质。深夜写日记的文艺青年�?, advantage: '感受力强，有艺术天赋，善于照顾人', risk: '过于敏感，容易焦虑，情绪�? },
+  '贪狼': { desc: '桃花星·欲望星。多才多艺，欲望强，善变，好奇心重。什么都想试试�?, advantage: '兴趣广泛，学习能力强，有魅力', risk: '贪多嚼不烂，容易分心，对平淡缺乏耐心' },
+  '巨门': { desc: '暗星·口舌星。口才好，好辩，多疑，有研究精神。总能提出尖锐问题�?, advantage: '口才出众，善于分析，有钻研精�?, risk: '好辩，多疑，容易得罪�? },
+  '天相': { desc: '印星·辅佐星。稳重，有原则，善于配合，重信誉。永远可靠的行政总管�?, advantage: '可靠，有原则，善于协�?, risk: '过于保守，缺乏主见，容易被利�? },
+  '天梁': { desc: '荫星·老人星。有长者风范，乐于助人，正直，有原则。永远在给别人出主意�?, advantage: '正直，有智慧，善于指导他�?, risk: '过于说教，固执，不够灵活' },
+  '七杀': { desc: '将星·孤星。果断，独立，有魄力，不怕挑战。敢一个人上战场的孤胆英雄�?, advantage: '果断，有魄力，敢于冒�?, risk: '过于冲动，孤独，不善合作' },
+  '破军': { desc: '耗星·变革星。破旧立新，不安现状，有破坏力。永远在推翻旧制度�?, advantage: '敢于变革，有创新精神，不怕打破重�?, risk: '过于激进，破坏性强，不稳定' },
+  '左辅': { desc: '贵人之星。永远在你身边帮忙的好兄弟。代表贵人和助力�? },
+  '右弼': { desc: '贵人之星。同上，但更偏向女性贵人。代表贵人和助力�? },
+  '文昌': { desc: '文采·学术。考试成绩永远很好的人。代表文采和学习能力�? },
+  '文曲': { desc: '才艺·桃花。唱歌好听画画也好的文艺青年。代表才艺和魅力�? },
+  '天魁': { desc: '长辈贵人。永远有长辈罩着你的感觉。代表男性贵人和长辈缘�? },
+  '天钺': { desc: '异性贵人。永远有异性帮忙的桃花贵人。代表女性贵人和异性缘�? },
+  '禄存': { desc: '财富之星。天生的财库，善于守财和积累�? },
+  '擎羊': { desc: '刑伤·固执。永远不妥协的硬骨头�?, positive: '给人魄力和坚�? },
+  '陀�?: { desc: '拖延·纠缠。永远在拖延的慢性子�?, positive: '给人耐心和深�? },
+  '火星': { desc: '暴躁·冲动。一点就着的火药桶�?, positive: '给人行动力和爆发�? },
+  '铃星': { desc: '暗伤·郁闷。闷在心里不说的压抑感�?, positive: '给人内省和敏�? },
+  '天马': { desc: '奔波·变动。天生的行动派，闲不住，适合外出发展�? },
+  '地空': { desc: '空想·虚幻。永远在�?如果"的空想家�?, positive: '给人想象力和创意' },
+  '地劫': { desc: '劫夺·损耗。总觉着不够的匮乏感�?, positive: '给人危机意识和动�? },
+  '红鸾': { desc: '姻缘桃花。强烈的感情缘分，婚恋的催化剂�? },
+  '天喜': { desc: '喜庆之星。喜事连连，婚庆、生育等好事之兆�? },
+};
+
+const HUA_CN = { 'sihuaLu': '�?, 'sihuaQuan': '�?, 'sihuaKe': '�?, 'sihuaJi': '�? };
+const HUA_CLASS = { 'sihuaLu': 'lu', 'sihuaQuan': 'quan', 'sihuaKe': 'ke', 'sihuaJi': 'ji' };
+
+const FIVE_ELEMENTS_CN = {
+  'water2': '水二局', 'water2nd': '水二局', 'wood3': '木三局', 'wood3rd': '木三局',
+  'metal4': '金四局', 'metal4th': '金四局', 'earth5': '土五局', 'earth5th': '土五局',
+  'fire6': '火六局', 'fire6th': '火六局', 2: '水二局', 3: '木三局', 4: '金四局', 5: '土五局', 6: '火六局'
+};
+
+const PALACE_NAMES_CN = {
+  'soulPalace': '命宫', 'parentsPalace': '父母�?, 'spiritPalace': '福德�?,
+  'propertyPalace': '田宅�?, 'careerPalace': '官禄�?, 'friendsPalace': '交友�?,
+  'surfacePalace': '迁移�?, 'healthPalace': '疾厄�?, 'wealthPalace': '财帛�?,
+  'childrenPalace': '子女�?, 'spousePalace': '夫妻�?, 'siblingsPalace': '兄弟�?
+};
+
+const BRANCH_MAP = {
+  'ziEarthly': '�?, 'chouEarthly': '�?, 'yinEarthly': '�?, 'maoEarthly': '�?,
+  'chenEarthly': '�?, 'siEarthly': '�?, 'wuEarthly': '�?, 'weiEarthly': '�?,
+  'shenEarthly': '�?, 'youEarthly': '�?, 'xuEarthly': '�?, 'haiEarthly': '�?
+};
+
+const STEM_CN = {
+  'jiaHeavenly': '�?, 'yiHeavenly': '�?, 'bingHeavenly': '�?, 'dingHeavenly': '�?,
+  'wuHeavenly': '�?, 'jiHeavenly': '�?, 'gengHeavenly': '�?, 'xinHeavenly': '�?,
+  'renHeavenly': '�?, 'guiHeavenly': '�?
+};
+
+const HOUR_NAMES = {
+  0: '早子�?, 1: '丑时', 2: '寅时', 3: '卯时',
+  4: '辰时', 5: '巳时', 6: '午时', 7: '未时',
+  8: '申时', 9: '酉时', 10: '戌时', 11: '亥时', 12: '晚子�?
+};
+
+// 4x4 grid layout: branches mapped to (row, col) from top-left (1,1)
+const GRID_BRANCHES = [
+  ['�?, '�?, '�?, '�?],
+  ['�?, null, null, '�?],
+  ['�?, null, null, '�?],
+  ['�?, '�?, '�?, '�?]
+];
+
+function setCalendar(type) {
+  calendarType = type;
+  document.querySelectorAll('[data-type="solar"], [data-type="lunar"]').forEach(b => {
+    b.classList.toggle('active', b.dataset.type === type);
+  });
+  document.getElementById('lunarLeapGroup').style.display = type === 'lunar' ? 'block' : 'none';
+}
+
+function setLeap(val) {
+  isLeap = val;
+  document.querySelectorAll('#lunarLeapGroup .toggle-btn').forEach(b => {
+    b.classList.toggle('active', (b.dataset.type === 'leap') === val);
+  });
+}
+
+function validateDate() {
+  const input = document.getElementById('birthDate');
+  if (!input.value) input.value = '2000-01-01';
+}
+
+function backToForm() {
+  document.getElementById('chartSection').classList.remove('visible');
+  document.getElementById('formSection').style.display = 'block';
+  document.getElementById('errorContainer').innerHTML = '';
+  window.scrollTo(0, 0);
+}
+
+function showError(msg) {
+  document.getElementById('errorContainer').innerHTML = '<div class="error-msg">' + msg + '</div>';
+}
+
+function getBranchCN(palace) {
+  if (!palace) return '';
+  const branch = palace.earthlyBranch || '';
+  return BRANCH_MAP[branch] || palace.name || '';
+}
+
+function getStemCN(stem) {
+  return STEM_CN[stem] || stem || '';
+}
+
+// ===== MAIN CALCULATION =====
+function calculateChart() {
+  const btn = document.getElementById('submitBtn');
+  btn.classList.add('loading');
+  document.getElementById('errorContainer').innerHTML = '';
+
+  try {
+    if (!window.iztro) {
+      showError('命盘计算库加载中，请刷新页面后重试。如果问题持续，请检查网络连接�?);
+      btn.classList.remove('loading');
+      return;
+    }
+
+    const dateStr = document.getElementById('birthDate').value;
+    const hourIndex = parseInt(document.getElementById('birthHour').value);
+    const gender = document.getElementById('birthGender').value;
+
+    if (!dateStr) {
+      showError('请选择出生日期');
+      btn.classList.remove('loading');
+      return;
+    }
+
+    const parts = dateStr.split('-');
+    const fmtDate = parts[0] + '-' + parseInt(parts[1]) + '-' + parseInt(parts[2]);
+
+    let chart;
+    if (calendarType === 'solar') {
+      chart = window.iztro.astro.bySolar(fmtDate, hourIndex, gender, 'zh-CN');
+    } else {
+      chart = window.iztro.astro.byLunar(fmtDate, hourIndex, gender, isLeap, true, 'zh-CN');
+    }
+
+    if (!chart) {
+      showError('排盘失败，请检查输入信息是否正确�?);
+      btn.classList.remove('loading');
+      return;
+    }
+
+    renderChart(chart, dateStr, hourIndex, gender);
+
+    document.getElementById('formSection').style.display = 'none';
+    document.getElementById('chartSection').classList.add('visible');
+    window.scrollTo(0, 0);
+
+  } catch (e) {
+    showError('排盘出错�? + (e.message || e));
+    console.error(e);
+  }
+
+  btn.classList.remove('loading');
+}
+
+// ===== RENDER CHART =====
+function renderChart(chart, dateStr, hourIndex, gender) {
+  const palaces = chart.palaces || [];
+  const soulPalace = chart.getSoulPalace ? chart.getSoulPalace() : null;
+  const bodyPalace = chart.getBodyPalace ? chart.getBodyPalace() : null;
+
+  const soulBranch = soulPalace ? getBranchCN(soulPalace) : '';
+  const bodyBranch = bodyPalace ? getBranchCN(bodyPalace) : '';
+
+  const soulStars = soulPalace ? (soulPalace.majorStars || []).map(s => s.name || s).join('·') : '';
+
+  const fiveEl = FIVE_ELEMENTS_CN[chart.fiveElementsClass] || chart.fiveElementsClass || '';
+  const chineseDate = chart.chineseDate || '';
+  const lunarDate = chart.lunarDate || '';
+  const genderCN = gender === 'male' ? '�? : '�?;
+  const hourName = HOUR_NAMES[hourIndex] || '';
+
+  // Header
+  document.getElementById('headerSub').textContent = (lunarDate || dateStr) + ' · ' + hourName + ' · ' + genderCN + '�?;
+
+  // Info bar
+  document.getElementById('infoBar').innerHTML = [
+    { label: '�?�?局', value: fiveEl },
+    { label: '�?�?, value: soulBranch + '�? },
+    { label: '�?�?�?, value: soulStars || '空宫' },
+    { label: '�?�?�?�?, value: '�? }
+  ].map(c => '<div class="info-cell"><div class="info-cell-label">' + c.label + '</div><div class="info-cell-value">' + c.value + '</div></div>').join('');
+
+  // Palace grid
+  renderPalaceGrid(palaces, soulBranch, bodyBranch, chart, hourIndex);
+
+  // Reading cards
+  renderReadingCards(palaces, soulBranch);
+
+  // Calibration
+  renderCalibration();
+}
+
+// ===== PALACE GRID =====
+function renderPalaceGrid(palaces, soulBranch, bodyBranch, chart, hourIndex) {
+  const gridEl = document.getElementById('palaceGrid');
+
+  // Build branch -> palace map
+  const palaceMap = {};
+  for (const p of palaces) {
+    const branch = getBranchCN(p);
+    palaceMap[branch] = p;
+  }
+
+  // Collect all mutagens from chart for center display
+  const allMutagens = [];
+  for (const p of palaces) {
+    for (const s of (p.majorStars || []).concat(p.minorStars || [])) {
+      if (s.mutagen) {
+        allMutagens.push({ starName: s.name || '', mutagen: s.mutagen });
+      }
+    }
+  }
+
+  let html = '';
+  for (let row = 0; row < 4; row++) {
+    for (let col = 0; col < 4; col++) {
+      const branch = GRID_BRANCHES[row][col];
+
+      if (!branch) {
+        // Center area
+        if (row === 1 && col === 1) {
+          const chineseDate = chart.chineseDate || '';
+          let yearSB = chineseDate ? chineseDate.split(/[\s年]/)[0] || '' : '';
+
+          const fourHuaHtml = allMutagens.map(m => {
+            const cls = HUA_CLASS[m.mutagen] || '';
+            return '<span class="hua-tag hua-' + cls + '">' + m.starName + HUA_CN[m.mutagen] + '</span>';
+          }).join('\n');
+
+          html += '<div class="palace-center">' +
+            '<div class="center-bagua">�?/div>' +
+            '<div class="center-title">' + yearSB + '生人</div>' +
+            '<div class="center-info">' +
+              (chart.lunarDate || '') + '<br>' +
+              (chart.chineseDate || '') + '<br>' +
+              (HOUR_NAMES[hourIndex] || '') + '�?· ' + FIVE_ELEMENTS_CN[chart.fiveElementsClass] +
+            '</div>' +
+            '<div class="four-hua-bar">' + fourHuaHtml + '</div>' +
+          '</div>';
+        }
+        continue;
+      }
+
+      const p = palaceMap[branch];
+
+      // CSS classes
+      const cls = ['palace'];
+      if (branch === soulBranch) cls.push('active');
+      if (branch === bodyBranch) cls.push('current-limit');
+
+      // Palace name (Chinese)
+      let pNameCN = '';
+      if (p) pNameCN = PALACE_NAMES_CN[p.name] || p.name || '';
+
+      // Stars
+      let starsHtml = '';
+      if (p) {
+        const majorStars = p.majorStars || [];
+        const minorStars = p.minorStars || [];
+        const adjStars = p.adjectiveStars || [];
+        const allStars = [
+          ...majorStars.map(s => ({ name: s.name || s, isMain: true, mutagen: s.mutagen || null })),
+          ...minorStars.map(s => ({ name: s.name || s, isMain: false, mutagen: s.mutagen || null })),
+          ...adjStars.slice(0, 3).map(s => ({ name: s.name || s, isMain: false, mutagen: null }))
+        ];
+
+        if (allStars.length > 0) {
+          for (const star of allStars) {
+            let extra = '';
+            if (star.mutagen) {
+              const mClass = HUA_CLASS[star.mutagen] || '';
+              extra = ' <span class="star ' + mClass + '">' + HUA_CN[star.mutagen] + '</span>';
+            }
+            starsHtml += '<div class="star ' + (star.isMain ? 'main' : 'minor') + '">' + (star.name || '') + extra + '</div>';
+          }
+        } else {
+          starsHtml = '<div class="star empty">空宫</div>';
+        }
+      }
+
+      // Badges
+      let badges = '';
+      if (p) {
+        const sp = chart.getSoulPalace ? chart.getSoulPalace() : null;
+        const bp = chart.getBodyPalace ? chart.getBodyPalace() : null;
+        if (sp && p.index === sp.index) badges += '<div class="palace-badge badge-ming">命宫</div>';
+        if (bp && p.index === bp.index) badges += '<div class="palace-badge badge-body">身宫</div>';
+      }
+
+      html += '<div class="' + cls.join(' ') + '">' +
+        '<div class="palace-name">' + pNameCN + '</div>' +
+        '<div class="palace-dizhi">' + branch + '</div>' +
+        '<div class="palace-stars">' + starsHtml + '</div>' +
+        badges +
+      '</div>';
+    }
+  }
+
+  gridEl.innerHTML = html;
+}
+
+// ===== READING CARDS =====
+function renderReadingCards(palaces, soulBranch) {
+  const container = document.getElementById('readingCards');
+
+  const soulPalace = palaces.find(p => getBranchCN(p) === soulBranch);
+  const soulStars = soulPalace ? (soulPalace.majorStars || []).map(s => s.name || s) : [];
+  const soulStarNames = soulStars.join('�?) || '空宫';
+
+  const careerPalace = palaces.find(p => p.name === 'careerPalace');
+  const wealthPalace = palaces.find(p => p.name === 'wealthPalace');
+  const spousePalace = palaces.find(p => p.name === 'spousePalace');
+
+  const careerStars = careerPalace ? (careerPalace.majorStars || []).map(s => s.name || s).join('·') : '';
+  const wealthStars = wealthPalace ? (wealthPalace.majorStars || []).map(s => s.name || s).join('·') : '';
+  const spouseStars = spousePalace ? (spousePalace.majorStars || []).map(s => s.name || s).join('·') : '';
+
+  const nums = ['一', '�?, '�?, '�?, '�?];
+
+  let html = '';
+  // Card 1: 命盘底色
+  html += '<div class="reading-card full highlight" data-num="' + nums[0] + '">' +
+    '<div class="card-title">命盘底色 · 先天禀�?/div>' +
+    '<div class="card-stars-badge">' + soulStarNames + '</div>' +
+    '<div class="card-body">' + genInterpretation(soulStars, '命宫') + '</div>' +
+  '</div>';
+  // Card 2: 事业
+  html += '<div class="reading-card" data-num="' + nums[1] + '">' +
+    '<div class="card-title">事业 · 官禄�?/div>' +
+    '<div class="card-stars-badge">' + (careerStars || '�?) + '</div>' +
+    '<div class="card-body">' + genInterpretation(careerStars ? careerStars.split('·') : [], '官禄�?) + '</div>' +
+  '</div>';
+  // Card 3: 财运
+  html += '<div class="reading-card" data-num="' + nums[2] + '">' +
+    '<div class="card-title">财运 · 财帛�?/div>' +
+    '<div class="card-stars-badge">' + (wealthStars || '�?) + '</div>' +
+    '<div class="card-body">' + genInterpretation(wealthStars ? wealthStars.split('·') : [], '财帛�?) + '</div>' +
+  '</div>';
+  // Card 4: 感情 (full)
+  html += '<div class="reading-card full" data-num="' + nums[3] + '">' +
+    '<div class="card-title">感情 · 夫妻�?/div>' +
+    '<div class="card-stars-badge">' + (spouseStars || '�?) + '</div>' +
+    '<div class="card-body">' + genInterpretation(spouseStars ? spouseStars.split('·') : [], '夫妻�?) + '</div>' +
+  '</div>';
+
+  container.innerHTML = html;
+}
+
+function genInterpretation(stars, palaceName) {
+  if (!stars || stars.length === 0) {
+    return '此宫为空宫，需借对宫星曜来看�?br>' +
+      '空宫不代表没有，而是说明这个领域受外部环境影响较大，' +
+      '需结合后天运势判断。建议多观察实际生活中的表现来校准�?;
+  }
+
+  const arr = Array.isArray(stars) ? stars : stars.split('�?).filter(s => s.trim());
+  let parts = [];
+  for (const name of arr) {
+    const info = STAR_MEANINGS[name];
+    if (info) {
+      parts.push('<strong>' + name + '</strong>—�? + info.desc);
+      if (info.advantage) parts.push('<span class="good">优势�?/span>' + info.advantage);
+      if (info.risk) parts.push('<span class="warn">注意�?/span>' + info.risk);
+      if (info.positive && !info.advantage) parts.push('<span class="good">正面�?/span>' + info.positive);
+    } else {
+      parts.push('<strong>' + name + '</strong>�? + palaceName + '，需结合其他星曜综合判断�?);
+    }
+  }
+  return parts.join('<br>');
+}
+
+// ===== CALIBRATION =====
+function renderCalibration() {
+  const qs = [
+    { t: '目前从事的行业或工作性质�?, h: '与命盘主星特质是否吻合？' },
+    { t: '是否已婚？感情状态如何？', h: '夫妻宫星曜与实际感情体验的对�? },
+    { t: '�?�?年有没有明显的转折或压力�?, h: '辅助判断当前大限的准确度' },
+    { t: '父母中哪一方影响你更深�?, h: '父母宫格局的验�? },
+    { t: '身体上是否有反复出现的健康问题？', h: '疾厄宫星曜的对照参�? },
+  ];
+  const nums = ['一', '�?, '�?, '�?, '�?];
+  let html = '';
+  qs.forEach((q, i) => {
+    html += '<div class="cal-q"><div class="cal-num">' + nums[i] + '</div>' +
+      '<div class="cal-text">' + q.t + '<span>' + q.h + '</span></div></div>';
+  });
+  document.getElementById('calQuestions').innerHTML = html;
+}
+</script>
+</body>
+</html>
