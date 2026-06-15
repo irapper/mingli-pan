@@ -106,9 +106,11 @@ body{background:#0A0A0F;color:#F2EBD9;font-family:Georgia,"Noto Serif SC",serif;
 <div class="fs" id="fm">
 <div class="fh"><div class="fe">紫微三合 × 中州派 × 手相互证</div><div class="ft">命盘解读</div><div class="fd">输入生辰信息，生成完整的紫微斗数命盘报告</div></div>
 <div class="fg"><label class="fl">历法选择</label><div class="tg"><button class="tb on" onclick="sc('solar')">公历</button><button class="tb" onclick="sc('lunar')">农历</button></div></div>
-<div class="fg"><label class="fl">出生日期</label><input class="if" type="date" id="bd" value="2000-01-01"></div>
+<div class="fg"><label class="fl">姓名（选填）</label><input class="if" type="text" id="name" placeholder="输入姓名"></div>
+    <div class="fg"><label class="fl">出生日期</label><input class="if" type="date" id="bd" value="2000-01-01"></div>
 <div class="fg" id="llg" style="display:none"><label class="fl">农历闰月</label><div class="tg"><button class="tb on" onclick="sl(false)">否</button><button class="tb" onclick="sl(true)">是</button></div></div>
 <div class="fg"><label class="fl">出生时辰</label><div class="fr"><select class="sl" id="bh"><option value="0">早子时(00:00-01:00)</option><option value="1" selected>丑时(01:00-03:00)</option><option value="2">寅时(03:00-05:00)</option><option value="3">卯时(05:00-07:00)</option><option value="4">辰时(07:00-09:00)</option><option value="5">巳时(09:00-11:00)</option><option value="6">午时(11:00-13:00)</option><option value="7">未时(13:00-15:00)</option><option value="8">申时(15:00-17:00)</option><option value="9">酉时(17:00-19:00)</option><option value="10">戌时(19:00-21:00)</option><option value="11">亥时(21:00-23:00)</option><option value="12">晚子时(23:00-00:00)</option></select><select class="sl" id="bg"><option value="male">男</option><option value="female">女</option></select></div></div>
+    <div class="fg"><label class="fl">出生地经度（选填，用于真太阳时）</label><input class="if" type="text" id="lng" placeholder="e.g. 北京116.4，上海121.5，留空用标准时间"></div>
 <div class="fg"><button class="sb" id="sm" onclick="cc()">开始排盘</button></div>
 <div id="ec"></div>
 </div>
@@ -117,7 +119,8 @@ body{background:#0A0A0F;color:#F2EBD9;font-family:Georgia,"Noto Serif SC",serif;
 <div class="hd"><div class="he">紫微三合 × 中州派 × 手相互证</div><div class="ht">命盘解读</div><div class="hs" id="hsub"></div></div>
 <div class="dv"><span>✦</span></div>
 <div class="st">基础信息</div><div class="ib" id="ibar"></div>
-<div class="st">十二宫位分布</div><div class="pg" id="pg"></div>
+<div class="st">四柱八字</div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(200,169,110,0.15);border:1px solid rgba(200,169,110,0.2);margin-bottom:36px" id="baziBar"><div class="ic"><div class="il">年柱</div><div class="iv" id="yz" style="font-size:20px;letter-spacing:4px">--</div></div><div class="ic"><div class="il">月柱</div><div class="iv" id="mz" style="font-size:20px;letter-spacing:4px">--</div></div><div class="ic"><div class="il">日柱</div><div class="iv" id="dz" style="font-size:20px;letter-spacing:4px">--</div></div><div class="ic"><div class="il">时柱</div><div class="iv" id="hz" style="font-size:20px;letter-spacing:4px">--</div></div></div>
+    <div class="st">十二宫位分布</div><div class="pg" id="pg"></div>
 <div class="st">命盘解读</div><div class="rg" id="rc"></div>
 <div class="dv"><span>✦</span></div>
 <div class="cal"><div class="cat">校准问答</div><div class="cad">准确度约 65–75%，以下反馈可推到 85% 以上</div><div id="cq"></div></div>
@@ -144,7 +147,23 @@ try{if(!window.iztro){se("排盘计算库加载失败，请刷新重试");btn.cl
 const ds=document.getElementById("bd").value,hi=parseInt(document.getElementById("bh").value),gd=document.getElementById("bg").value;
 if(!ds){se("请选择出生日期");btn.classList.remove("ld");return}
 const p=ds.split("-"),fd=p[0]+"-"+parseInt(p[1])+"-"+parseInt(p[2]);
-let ch;if(ct==="solar")ch=window.iztro.astro.bySolar(fd,hi,gd,"zh-CN");else ch=window.iztro.astro.byLunar(fd,hi,gd,lp,true,"zh-CN");
+  // True solar time adjustment
+  let adjustedHi = hi;
+  const lngInput = document.getElementById("lng");
+  if (lngInput && lngInput.value.trim()) {
+    const lng = parseFloat(lngInput.value.trim());
+    if (!isNaN(lng)) {
+      const adjustMins = (lng - 120) * 4;
+      const totalMins = (hi === 12 ? 0 : hi * 2 * 60) + (hi === 0 || hi === 12 ? 0 : 60) + adjustMins;
+      const adjHours = ((totalMins % (24*60)) / 60) | 0;
+      const adjMins = totalMins % 60;
+      const hour2 = adjHours % 2 === 0 ? adjHours / 2 : (adjHours - 1) / 2;
+      adjustedHi = adjHours === 0 ? 0 : adjHours === 23 ? 12 : hour2 + 1;
+      if (adjustedHi < 0 || adjustedHi > 12) adjustedHi = hi;
+    }
+  }
+  const actualHi = adjustedHi;
+let ch;if(ct==="solar")ch=window.iztro.astro.bySolar(fd,actualHi,gd,"zh-CN");else ch=window.iztro.astro.byLunar(fd,actualHi,gd,lp,true,"zh-CN");
 if(!ch){se("排盘失败，请检查输入");btn.classList.remove("ld");return}
 renderChart(ch,ds,hi,gd);document.getElementById("fm").style.display="none";document.getElementById("cs").classList.add("sh");window.scrollTo(0,0)
 }catch(e){se("出错："+(e.message||e));console.error(e)}
@@ -155,7 +174,23 @@ const sb=sp?gf(sp.earthlyBranch):"",bb=bp?gf(bp.earthlyBranch):"";
 const ss=sp?(sp.majorStars||[]).map(s=>s.name||s).join("·"):"";
 const fe=FE[ch.fiveElementsClass]||ch.fiveElementsClass||"",hn=HN[hi]||"",gc=gd==="male"?"男":"女",cd=ch.chineseDate||"",ld=ch.lunarDate||"";
 document.getElementById("hsub").textContent=(ld||ds)+" · "+hn+" · "+gc+"命";
-document.getElementById("ibar").innerHTML=[["五 行 局",fe],["命 宫",sb+"宫"],["命 主 星",ss||"空宫"],["当 前 大 限","—"]].map(c=>'<div class="ic"><div class="il">'+c[0]+"</div><div class="iv">"+c[1]+"</div></div>").join("");
+  // Ba Zi (four pillars)
+  const chineseDate = ch.chineseDate || "";
+  const yearPillar = chineseDate.split(/[\s\u5e74]/)[0] || "--";
+  const monthPillar = ch.monthPillar || "--";
+  const dayPillar = ch.dayPillar || "--";
+  const hourPillar = ch.hourPillar || "--";
+  try {
+    if (ch.fourPillars) {
+      document.getElementById("yz").textContent = ch.fourPillars.year || yearPillar;
+      document.getElementById("mz").textContent = ch.fourPillars.month || monthPillar;
+      document.getElementById("dz").textContent = ch.fourPillars.day || dayPillar;
+      document.getElementById("hz").textContent = ch.fourPillars.hour || hourPillar;
+    } else {
+      document.getElementById("yz").textContent = yearPillar;
+    }
+  } catch(e) {}
+  document.getElementById("ibar").innerHTML=[["五 行 局",fe],["命 宫",sb+"宫"],["命 主 星",ss||"空宫"],["当 前 大 限","—"]].map(c=>'<div class="ic"><div class="il">'+c[0]+"</div><div class="iv">"+c[1]+"</div></div>").join("");
 const pm={};for(const p of pl){const b=gf(p.earthlyBranch);pm[b]=p}
 const am=[];for(const p of pl)for(const s of(p.majorStars||[]).concat(p.minorStars||[]))if(s.mutagen)am.push({n:s.name||s,m:s.mutagen});
 let h="";for(let r=0;r<4;r++){for(let c=0;c<4;c++){const br=GB[r][c];if(!br){if(r===1&&c===1){const cd=ch.chineseDate||"";let ys=cd?cd.split(/[\s年]/)[0]||"":"";const fh=am.map(m=>{const cx=HX[m.m]||"";return'<span class="htg h'+cx+'">'+m.n+HC[m.m]+"</span>"}).join("\n");h+='<div class="pm" style="grid-column:2/4;grid-row:2/4"><div class="cb">☯</div><div class="ct">'+ys+'生人</div><div class="ci">'+(ch.lunarDate||"")+"<br>"+(ch.chineseDate||"")+"<br>"+hn+"命 · "+fe+'</div><div class="fb">'+fh+"</div></div>"}continue}
