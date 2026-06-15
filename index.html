@@ -127,112 +127,28 @@ body{background:#0A0A0F;color:#F2EBD9;font-family:Georgia,"Noto Serif SC",serif;
 <div class="ftr"><div class="fq">命盘显示可能性<br>行动决定现实</div><div class="fn">象由心生 · 算命是对话，不是表演 · 准确度随沟通趋近</div></div>
 </div>
 </div>
-<script>
-let ct="solar",lp=false;
-const SM={"紫微":{d:"帝星·领袖星。自尊心强，有领袖气场。",a:"统御力强，有主见，格局大",r:"孤高，好面子，不愿示弱"},"天机":{d:"谋士星·智慧星。思维敏捷，善变，多学少精。",a:"聪明，反应快，善于分析和策划",r:"想太多做太少，容易变卦"},"太阳":{d:"光明星·付出星。热情，慷慨，爱面子，利他。",a:"热情大方，有感染力",r:"过度付出，爱面子不愿求助"},"武曲":{d:"财星·将星。务实，果断，拼搏，重义。",a:"执行力强，有魄力",r:"过于刚硬，不善于表达感情"},"天同":{d:"福星·享受星。温和，乐观，重享受。",a:"人缘好，心态好",r:"缺乏进取心，容易满足现状"},"廉贞":{d:"囚星·桃花星。执着，有魅力，爱恨分明。",a:"有魅力，执着，有艺术天赋",r:"过于执着，情绪化"},"天府":{d:"库星·财星。稳重，保守，善于积累。",a:"稳重可靠，善于理财",r:"过于保守，缺乏冒险精神"},"太阴":{d:"月亮星·母性星。细腻，感性，内省。",a:"感受力强，有艺术天赋",r:"过于敏感，容易焦虑"},"贪狼":{d:"桃花星·欲望星。多才多艺，欲望强。",a:"兴趣广泛，学习能力强",r:"贪多嚼不烂，容易分心"},"巨门":{d:"暗星·口舌星。口才好，好辩，多疑。",a:"口才出众，善于分析",r:"好辩，多疑，容易得罪人"},"天相":{d:"印星·辅佐星。稳重，有原则，善于配合。",a:"可靠，有原则，善于协调",r:"过于保守，缺乏主见"},"天梁":{d:"荫星·老人星。有长者风范，乐于助人。",a:"正直，有智慧",r:"过于说教，固执"},"七杀":{d:"将星·孤星。果断，独立，有魄力。",a:"果断，有魄力",r:"过于冲动，孤独"},"破军":{d:"耗星·变革星。破旧立新，不安现状。",a:"敢于变革",r:"过于激进"},"左辅":{d:"贵人之星。永远在你身边帮忙的好兄弟。"},"右弼":{d:"贵人之星。偏向女性贵人。"},"文昌":{d:"文采·学术。成绩永远很好的人。"},"文曲":{d:"才艺·桃花。文艺青年。"},"天魁":{d:"长辈贵人。永远有长辈罩着。"},"天钺":{d:"异性贵人。有异性帮忙。"},"禄存":{d:"财富之星。天生的财库，善于守财。"},"擎羊":{d:"刑伤·固执。永不妥协的硬骨头。",r:"给人魄力和坚持"},"陀罗":{d:"拖延·纠缠。慢吞吞的慢性子。",r:"给人耐心和深度"},"火星":{d:"暴躁·冲动。一点就着。",r:"给人行动力和爆发力"},"铃星":{d:"暗伤·郁闷。闷在心里不说。",r:"给人内省和敏感"},"天马":{d:"奔波·变动。天生的行动派。"},"地空":{d:"空想·虚幻。永远在想"如果"。",r:"给人想象力和创意"},"地劫":{d:"劫夺·损耗。总觉着不够。",r:"给人危机意识和动力"},"红鸾":{d:"姻缘桃花。强烈的感情缘分。"},"天喜":{d:"喜庆之星。喜事连连。"},};
-const HC={sihuaLu:"禄",sihuaQuan:"权",sihuaKe:"科",sihuaJi:"忌"},HX={sihuaLu:"lu",sihuaQuan:"qn",sihuaKe:"ke",sihuaJi:"ji"};
-const FE={water2:"水二局",water2nd:"水二局",wood3:"木三局",wood3rd:"木三局",metal4:"金四局",metal4th:"金四局",earth5:"土五局",earth5th:"土五局",fire6:"火六局",fire6th:"火六局",2:"水二局",3:"木三局",4:"金四局",5:"土五局",6:"火六局"};
-const PA={soul:"命宫",parents:"父母宫",spirit:"福德宫",property:"田宅宫",career:"官禄宫",friends:"交友宫",surface:"迁移宫",health:"疾厄宫",wealth:"财帛宫",children:"子女宫",spouse:"夫妻宫",siblings:"兄弟宫"};
-const BR={zi:"子",chou:"丑",yin:"寅",mao:"卯",chen:"辰",si:"巳",wu:"午",wei:"未",shen:"申",you:"酉",xu:"戌",hai:"亥"};
-const HN={0:"早子时",1:"丑时",2:"寅时",3:"卯时",4:"辰时",5:"巳时",6:"午时",7:"未时",8:"申时",9:"酉时",10:"戌时",11:"亥时",12:"晚子时"};
-const GB=[["辰","巳","午","未"],["卯",null,null,"申"],["寅",null,null,"酉"],["丑","子","亥","戌"]];
-function sc(t){ct=t;var btns=document.querySelectorAll(".tg .tb");for(var i=0;i<btns.length;i++){btns[i].classList.toggle("on",btns[i].textContent===("solar"===t?"公历":"农历"))}document.getElementById("llg").style.display=t==="lunar"?"block":"none"}
-function sl(v){lp=v;document.querySelectorAll("#llg .tb").forEach(b=>b.classList.toggle("on",(b.dataset.type==="leap")===v))}
-function bf(){document.getElementById("cs").classList.remove("sh");document.getElementById("fm").style.display="block";document.getElementById("ec").innerHTML="";window.scrollTo(0,0)}
+<script>var ct="solar",lp=false;
+var PA={soul:"命宫",parents:"父母宫",spirit:"福德宫",property:"田宅宫",career:"官禄宫",friends:"交友宫",surface:"迁移宫",health:"疾厄宫",wealth:"财帛宫",children:"子女宫",spouse:"夫妻宫",siblings:"兄弟宫"};
+var HC={sihuaLu:"禄",sihuaQuan:"权",sihuaKe:"科",sihuaJi:"忌"};
+var HX={sihuaLu:"lu",sihuaQuan:"qn",sihuaKe:"ke",sihuaJi:"ji"};
+var FE={water2:"水二局",water2nd:"水二局",wood3:"木三局",wood3rd:"木三局",metal4:"金四局",metal4th:"金四局",earth5:"土五局",earth5th:"土五局",fire6:"火六局",fire6th:"火六局",2:"水二局",3:"木三局",4:"金四局",5:"土五局",6:"火六局"};
+var BR={zi:"子",chou:"丑",yin:"寅",mao:"卯",chen:"辰",si:"巳",wu:"午",wei:"未",shen:"申",you:"酉",xu:"戌",hai:"亥"};
+var HN={0:"早子时",1:"丑时",2:"寅时",3:"卯时",4:"辰时",5:"巳时",6:"午时",7:"未时",8:"申时",9:"酉时",10:"戌时",11:"亥时",12:"晚子时"};
+var GB=[["辰","巳","午","未"],["卯",null,null,"申"],["寅",null,null,"酉"],["丑","子","亥","戌"]];
+var SM=function(){var d={};d["紫微"]={d:"帝星·领袖星。自尊心强，有领袖气场。",a:"统御力强，有主见，格局大",r:"孤高，好面子，不愿示弱"};d["天机"]={d:"谋士星·智慧星。思维敏捷，善变，多学少精。",a:"聪明，反应快，善于分析和策划",r:"想太多做太少，容易变卦"};d["太阳"]={d:"光明星·付出星。热情，慷慨，爱面子，利他。",a:"热情大方，有感染力",r:"过度付出，爱面子不愿求助"};d["武曲"]={d:"财星·将星。务实，果断，拼搏，重义。",a:"执行力强，有魄力",r:"过于刚硬，不善于表达感情"};d["天同"]={d:"福星·享受星。温和，乐观，重享受。",a:"人缘好，心态好",r:"缺乏进取心，容易满足现状"};d["廉贞"]={d:"囚星·桃花星。执着，有魅力，爱恨分明。",a:"有魅力，执着，有艺术天赋",r:"过于执着，情绪化"};d["天府"]={d:"库星·财星。稳重，保守，善于积累。",a:"稳重可靠，善于理财",r:"过于保守，缺乏冒险精神"};d["太阴"]={d:"月亮星·母性星。细腻，感性，内省。",a:"感受力强，有艺术天赋",r:"过于敏感，容易焦虑"};d["贪狼"]={d:"桃花星·欲望星。多才多艺，欲望强。",a:"兴趣广泛，学习能力强",r:"贪多嚼不烂，容易分心"};d["巨门"]={d:"暗星·口舌星。口才好，好辩，多疑。",a:"口才出众，善于分析",r:"好辩，多疑，容易得罪人"};d["天相"]={d:"印星·辅佐星。稳重，有原则，善于配合。",a:"可靠，有原则，善于协调",r:"过于保守，缺乏主见"};d["天梁"]={d:"荫星·老人星。有长者风范，乐于助人。",a:"正直，有智慧",r:"过于说教，固执"};d["七杀"]={d:"将星·孤星。果断，独立，有魄力。",a:"果断，有魄力",r:"过于冲动，孤独"};d["破军"]={d:"耗星·变革星。破旧立新，不安现状。",a:"敢于变革",r:"过于激进"};d["左辅"]={d:"贵人之星。永远在你身边帮忙的好兄弟。"};d["右弼"]={d:"贵人之星。偏向女性贵人。"};d["文昌"]={d:"文采·学术。成绩永远很好的人。"};d["文曲"]={d:"才艺·桃花。文艺青年。"};d["天魁"]={d:"长辈贵人。永远有长辈罩着。"};d["天钺"]={d:"异性贵人。有异性帮忙。"};d["禄存"]={d:"财富之星。天生的财库，善于守财。"};d["擎羊"]={d:"刑伤·固执。永不妥协的硬骨头。",r:"给人魄力和坚持"};d["陀罗"]={d:"拖延·纠缠。慢吞吞的慢性子。",r:"给人耐心和深度"};d["火星"]={d:"暴躁·冲动。一点就着。",r:"给人行动力和爆发力"};d["铃星"]={d:"暗伤·郁闷。闷在心里不说。",r:"给人内省和敏感"};d["天马"]={d:"奔波·变动。天生的行动派。"};d["地空"]={d:"空想·虚幻。永远在想。",r:"给人想象力和创意"};d["地劫"]={d:"劫夺·损耗。总觉着不够。",r:"给人危机意识和动力"};d["红鸾"]={d:"姻缘桃花。强烈的感情缘分。"};d["天喜"]={d:"喜庆之星。喜事连连。"};return d}();
+function bc(p){if(!p)return"";var eb=p.earthlyBranch||"";var k=eb.replace("Earthly","").toLowerCase();return BR[k]||eb||""}
 function se(m){document.getElementById("ec").innerHTML='<div class="er">'+m+"</div>"}
-function bc(p){if(!p)return"";const eb=p.earthlyBranch||"";let r;for(const[k,v]of Object.entries(BR)){if(eb.includes(k)){r=v;break}}return r||p.name||""}
-function gf(s){const m={ziEarthly:"子",chouEarthly:"丑",yinEarthly:"寅",maoEarthly:"卯",chenEarthly:"辰",siEarthly:"巳",wuEarthly:"午",weiEarthly:"未",shenEarthly:"申",youEarthly:"酉",xuEarthly:"戌",haiEarthly:"亥"};return m[s]||s||""}
-function cc(){const btn=document.getElementById("sm");btn.classList.add("ld");document.getElementById("ec").innerHTML="";
-try{if(!window.iztro){se("排盘计算库加载失败，请刷新重试");btn.classList.remove("ld");return}
-const ds=document.getElementById("bd").value,hi=parseInt(document.getElementById("bh").value),gd=document.getElementById("bg").value;
-if(!ds){se("请选择出生日期");btn.classList.remove("ld");return}
-const p=ds.split("-"),fd=p[0]+"-"+parseInt(p[1])+"-"+parseInt(p[2]);
-  // True solar time adjustment
-  let adjustedHi = hi;
-  const lngInput = document.getElementById("lng");
-  if (lngInput && lngInput.value.trim()) {
-    const lng = parseFloat(lngInput.value.trim());
-    if (!isNaN(lng)) {
-      const adjustMins = (lng - 120) * 4;
-      const totalMins = (hi === 12 ? 0 : hi * 2 * 60) + (hi === 0 || hi === 12 ? 0 : 60) + adjustMins;
-      const adjHours = ((totalMins % (24*60)) / 60) | 0;
-      const adjMins = totalMins % 60;
-      const hour2 = adjHours % 2 === 0 ? adjHours / 2 : (adjHours - 1) / 2;
-      adjustedHi = adjHours === 0 ? 0 : adjHours === 23 ? 12 : hour2 + 1;
-      if (adjustedHi < 0 || adjustedHi > 12) adjustedHi = hi;
-    }
-  }
-  const actualHi = adjustedHi;
-let ch;if(ct==="solar")ch=window.iztro.astro.bySolar(fd,actualHi,gd,"zh-CN");else ch=window.iztro.astro.byLunar(fd,actualHi,gd,lp,true,"zh-CN");
-if(!ch){se("排盘失败，请检查输入");btn.classList.remove("ld");return}
-renderChart(ch,ds,hi,gd);document.getElementById("fm").style.display="none";document.getElementById("cs").classList.add("sh");window.scrollTo(0,0)
-}catch(e){se("出错："+(e.message||e));console.error(e)}
-btn.classList.remove("ld")}
-function renderChart(ch,ds,hi,gd){
-const pl=ch.palaces||[],sp=ch.getSoulPalace?ch.getSoulPalace():null,bp=ch.getBodyPalace?ch.getBodyPalace():null;
-const sb=sp?gf(sp.earthlyBranch):"",bb=bp?gf(bp.earthlyBranch):"";
-const ss=sp?(sp.majorStars||[]).map(s=>s.name||s).join("·"):"";
-const fe=FE[ch.fiveElementsClass]||ch.fiveElementsClass||"",hn=HN[hi]||"",gc=gd==="male"?"男":"女",cd=ch.chineseDate||"",ld=ch.lunarDate||"";
-document.getElementById("hsub").textContent=(ld||ds)+" · "+hn+" · "+gc+"命";
-  // Ba Zi (four pillars)
-  const chineseDate = ch.chineseDate || "";
-  const yearPillar = chineseDate.split(/[\s\u5e74]/)[0] || "--";
-  const monthPillar = ch.monthPillar || "--";
-  const dayPillar = ch.dayPillar || "--";
-  const hourPillar = ch.hourPillar || "--";
-  try {
-    if (ch.fourPillars) {
-      document.getElementById("yz").textContent = ch.fourPillars.year || yearPillar;
-      document.getElementById("mz").textContent = ch.fourPillars.month || monthPillar;
-      document.getElementById("dz").textContent = ch.fourPillars.day || dayPillar;
-      document.getElementById("hz").textContent = ch.fourPillars.hour || hourPillar;
-    } else {
-      document.getElementById("yz").textContent = yearPillar;
-    }
-  } catch(e) {}
-    // Ba Zi (four pillars)
-  const chineseDate = ch.chineseDate || "";
-  const yearPillar = chineseDate.split(/[\s\u5e74]/)[0] || "--";
-  const monthPillar = ch.monthPillar || "--";
-  const dayPillar = ch.dayPillar || "--";
-  const hourPillar = ch.hourPillar || "--";
-  try {
-    if (ch.fourPillars) {
-      document.getElementById("yz").textContent = ch.fourPillars.year || yearPillar;
-      document.getElementById("mz").textContent = ch.fourPillars.month || monthPillar;
-      document.getElementById("dz").textContent = ch.fourPillars.day || dayPillar;
-      document.getElementById("hz").textContent = ch.fourPillars.hour || hourPillar;
-    } else {
-      document.getElementById("yz").textContent = yearPillar;
-    }
-  } catch(e) {}
-  document.getElementById("ibar").innerHTML=[["五 行 局",fe],["命 宫",sb+"宫"],["命 主 星",ss||"空宫"],["当 前 大 限","—"]].map(c=>'<div class="ic"><div class="il">'+c[0]+"</div><div class="iv">"+c[1]+"</div></div>").join("");
-const pm={};for(const p of pl){const b=gf(p.earthlyBranch);pm[b]=p}
-const am=[];for(const p of pl)for(const s of(p.majorStars||[]).concat(p.minorStars||[]))if(s.mutagen)am.push({n:s.name||s,m:s.mutagen});
-let h="";for(let r=0;r<4;r++){for(let c=0;c<4;c++){const br=GB[r][c];if(!br){if(r===1&&c===1){const cd=ch.chineseDate||"";let ys=cd?cd.split(/[\s年]/)[0]||"":"";const fh=am.map(m=>{const cx=HX[m.m]||"";return'<span class="htg h'+cx+'">'+m.n+HC[m.m]+"</span>"}).join("\n");h+='<div class="pm" style="grid-column:2/4;grid-row:2/4"><div class="cb">☯</div><div class="ct">'+ys+'生人</div><div class="ci">'+(ch.lunarDate||"")+"<br>"+(ch.chineseDate||"")+"<br>"+hn+"命 · "+fe+'</div><div class="fb">'+fh+"</div></div>"}continue}
-const p=pm[br];let cs=["pc"];if(br===sb)cs.push("ac");if(br===bb)cs.push("cl");
-let pn="",sh="",bg="";if(p){pn=PA[p.name.replace("Palace","")]||p.name||"";
-const ms=p.majorStars||[],is=p.minorStars||[],as=p.adjectiveStars||[],all=[...ms.map(s=>({n:s.name||s,m:true,mg:s.mutagen})),...is.map(s=>({n:s.name||s,m:false,mg:s.mutagen})),...as.slice(0,3).map(s=>({n:s.name||s,m:false,mg:null}))];
-if(all.length>0)for(const st of all){let ex="";if(st.mg){const cx=HX[st.mg]||"";ex=' <span class="sr '+cx+'">'+HC[st.mg]+"</span>"}sh+='<div class="sr '+(st.m?"mn":"mr")+'">'+(st.n||"")+ex+"</div>"}else sh='<div class="sr em">空宫</div>';
-const sp2=ch.getSoulPalace?ch.getSoulPalace():null,bp2=ch.getBodyPalace?ch.getBodyPalace():null;if(sp2&&p.index===sp2.index)bg+='<div class="pb bm">命宫</div>';if(bp2&&p.index===bp2.index)bg+='<div class="pb bb">身宫</div>'}
-h+='<div class="'+cs.join(" ")+'"><div class="pn">'+pn+'</div><div class="pd">'+br+'</div><div class="ps">'+sh+"</div>"+bg+"</div>"}}
-document.getElementById("pg").innerHTML=h;
-const sp2=pl.find(p=>gf(p.earthlyBranch)===sb),sstars=sp2?(sp2.majorStars||[]).map(s=>s.name||s):[],ssn=sstars.join("、")||"空宫";
-const cp=pl.find(p=>p.name==="careerPalace"),wp=pl.find(p=>p.name==="wealthPalace"),spp=pl.find(p=>p.name==="spousePalace");
-const cs=cp?(cp.majorStars||[]).map(s=>s.name||s).join("·"):"",ws=wp?(wp.majorStars||[]).map(s=>s.name||s).join("·"):"",sss=spp?(spp.majorStars||[]).map(s=>s.name||s).join("·"):"";
-const n2=["一","二","三","四"];let rh="";
-rh+='<div class="rc fl hl"><div class="cet">命盘底色 · 先天禀赋</div><div class="csb">'+ssn+"</div><div class="cbd">"+gi(sstars,"命宫")+"</div></div>";
-rh+='<div class="rc"><div class="cet">事业 · 官禄宫</div><div class="csb">'+(cs||"—")+"</div><div class="cbd">"+gi(cs?cs.split("·"):[],"官禄宫")+"</div></div>";
-rh+='<div class="rc"><div class="cet">财运 · 财帛宫</div><div class="csb">'+(ws||"—")+"</div><div class="cbd">"+gi(ws?ws.split("·"):[],"财帛宫")+"</div></div>";
-rh+='<div class="rc fl"><div class="cet">感情 · 夫妻宫</div><div class="csb">'+(sss||"—")+"</div><div class="cbd">"+gi(sss?sss.split("·"):[],"夫妻宫")+"</div></div>";
-document.getElementById("rc").innerHTML=rh;
-function gi(st,pn){if(!st||!st.length)return"此宫为空宫，需借对宫星曜来看。<br>空宫不代表没有，受外部环境影响较大，需结合后天运势判断。";
-const arr=Array.isArray(st)?st:st.split("、").filter(s=>s.trim());let p=[];
-for(const n of arr){const info=SM[n];if(info){p.push("<strong>"+n+"</strong>——"+info.d);if(info.a)p.push('<span class="good">优势：</span>'+info.a);if(info.r)p.push('<span class="warn">注意：</span>'+info.r)}else p.push("<strong>"+n+"</strong>入"+pn+"，需结合综合判断。")}return p.join("<br>")}
-const qs=[{t:"目前从事的行业或工作性质？",h:"与命盘主星特质是否吻合？"},{t:"是否已婚？感情状态如何？",h:"夫妻宫星曜与实际的对照"},{t:"近1-2年有没有明显的转折或压力？",h:"辅助判断当前大限"},{t:"父母中哪一方影响你更深？",h:"父母宫格局验证"},{t:"身体上是否有反复出现的健康问题？",h:"疾厄宫星曜对照"}];
-const n3=["一","二","三","四","五"];let qh="";qs.forEach((q,i)=>{qh+='<div class="cq"><div class="cn">'+n3[i]+'</div><div class="ctt">'+q.t+'<span>'+q.h+"</span></div></div>"});
-document.getElementById("cq").innerHTML=qh;
-}
+function gi(st,pn){if(!st||!st.length)return"此宫为空宫。";var a=Array.isArray(st)?st:st.constructor===Array?st:[];var p=[];for(var i=0;i<a.length;i++){var n=a[i];if(typeof n==="string")n=n.trim();var info=SM[n];if(info){p.push("<strong>"+n+"</strong>"+info.d);if(info.a)p.push('<span class="good">优势:</span>'+info.a);if(info.r)p.push('<span class="warn">注意:</span>'+info.r)}else p.push(n+"入"+pn)}return p.join("<br>")}
+function cc(){var btn=document.getElementById("sm");btn.classList.add("ld");document.getElementById("ec").innerHTML="";try{var ds=document.getElementById("bd").value;var hi=parseInt(document.getElementById("bh").value);var gd=document.getElementById("bg").value;if(!ds){se("请选择日期");btn.classList.remove("ld");return}var p=ds.split("-"),fd=p[0]+"-"+parseInt(p[1])+"-"+parseInt(p[2]);var actualHi=hi;var lngInput=document.getElementById("lng");if(lngInput&&lngInput.value.trim()){var lng=parseFloat(lngInput.value.trim());if(!isNaN(lng)){var am=(lng-120)*4;var tm=(hi===12?0:hi*2*60)+(hi===0||hi===12?0:60)+am;var ah=((tm%(24*60))/60)|0;var h2=ah%2===0?ah/2:(ah-1)/2;actualHi=ah===0?0:ah===23?12:h2+1;if(actualHi<0||actualHi>12)actualHi=hi}}var ch;if(ct==="solar")ch=window.iztro.astro.bySolar(fd,actualHi,gd,"zh-CN");else ch=window.iztro.astro.byLunar(fd,actualHi,gd,lp,true,"zh-CN");if(!ch){se("排盘失败");btn.classList.remove("ld");return}rc(ch,ds,hi,gd);document.getElementById("fm").style.display="none";document.getElementById("cs").classList.add("sh");window.scrollTo(0,0)}catch(e){se("error:"+(e.message||e))}btn.classList.remove("ld")}
+function rc(ch,ds,hi,gd){var pl=ch.palaces||[],sp=ch.getSoulPalace?ch.getSoulPalace():null,bp=ch.getBodyPalace?ch.getBodyPalace():null;var sb=sp?bc(sp):"",bb=bp?bc(bp):"";var ss=sp?(sp.majorStars||[]).map(function(s){return s.name||s}).join("、"):"";var fe=FE[ch.fiveElementsClass]||"";var hn=HN[hi]||"",gc=gd==="male"?"男":"女",ld=ch.lunarDate||"",cd=ch.chineseDate||"";document.getElementById("hsub").textContent=(ld||ds)+" "+hn+" "+gc+"命";document.getElementById("ibar").innerHTML=[["五行局",fe],["命宫",sb+"宫"],["命主星",ss||"空宫"],["大限","--"]].map(function(c){return'<div class="ic"><div class="il">'+c[0]+"</div><div class="iv">"+c[1]+"</div></div>"}).join("");var yp=(cd||"").split(/[\s\u5e74]/)[0]||"--",mp="--",dp="--",hp="--";try{if(ch.fourPillars){yp=ch.fourPillars.year||yp;mp=ch.fourPillars.month||"--";dp=ch.fourPillars.day||"--";hp=ch.fourPillars.hour||"--"}}catch(e){}document.getElementById("baziBar").innerHTML=[[yp,"年柱"],[mp,"月柱"],[dp,"日柱"],[hp,"时柱"]].map(function(c){return'<div class="ic"><div class="iv" style="font-size:20px;letter-spacing:4px">'+c[0]+"</div><div class="il">"+c[1]+"</div></div>"}).join("");var pm={};for(var i=0;i<pl.length;i++){var b=bc(pl[i]);pm[b]=pl[i]}var am=[];for(var i=0;i<pl.length;i++){var ms=pl[i].majorStars||[],is=pl[i].minorStars||[];for(var j=0;j<ms.length;j++){if(ms[j].mutagen)am.push({n:ms[j].name||ms[j],m:ms[j].mutagen})}for(var j=0;j<is.length;j++){if(is[j].mutagen)am.push({n:is[j].name||is[j],m:is[j].mutagen})}}var h="";for(var r=0;r<4;r++){for(var c=0;c<4;c++){var br=GB[r][c];if(!br){if(r===1&&c===1){var cd2=ch.chineseDate||"";var ys=cd2?cd2.split(/[\s\u5e74]/)[0]||"":"";var fh=am.map(function(m){return'<span class="htg h'+(HX[m.m]||"")+'">'+m.n+(HC[m.m]||"")+"</span>"}).join("");h+='<div style="grid-column:2/4;grid-row:2/4;background:rgba(10,10,15,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px"><div style="font-size:40px;opacity:0.12">&#9775;</div><div style="font-size:clamp(16px,2.5vw,22px);color:#C8A96E">'+ys+'生人</div><div style="font-size:10px;color:#B8AA90;text-align:center">'+(ch.lunarDate||"")+"<br>"+(ch.chineseDate||"")+"<br>"+hn+"命 "+fe+'</div><div style="display:flex;gap:2px;margin-top:8px;flex-wrap:wrap;justify-content:center">'+fh+"</div></div>"}continue}var p=pm[br],cls=["pc"];if(br===sb)cls.push("ac");if(br===bb)cls.push("cl");var pn="",sh="",bg="";if(p){pn=PA[p.name.replace("Palace","")]||p.name||"";var ms=p.majorStars||[],is=p.minorStars||[],as=p.adjectiveStars||[];var all=[];for(var i2=0;i2<ms.length;i2++)all.push({n:ms[i2].name||ms[i2],im:true,mg:ms[i2].mutagen});for(var i2=0;i2<is.length;i2++)all.push({n:is[i2].name||is[i2],im:false,mg:is[i2].mutagen});for(var i2=0;i2<3&&i2<as.length;i2++)all.push({n:as[i2].name||as[i2],im:false,mg:null});if(all.length>0){for(var i2=0;i2<all.length;i2++){var st=all[i2],ex="";if(st.mg){var cx=HX[st.mg]||"";ex=' <span style="font-size:10px;color:'+(st.mg==="sihuaLu"?"#7CCC60":st.mg==="sihuaQuan"?"#D4A848":st.mg==="sihuaKe"?"#7BA8F0":"#FF6B6B")+'">'+(HC[st.mg]||"")+"</span>"}sh+='<div style="font-size:'+(st.im?"13px":"10px")+";color:"+(st.im?"#C8A96E":"#B8AA90")+';font-weight:600">'+(st.n||"")+ex+"</div>"}}else{sh='<div style="font-size:10px;color:#B8AA90;opacity:0.3;font-style:italic">空宫</div>'}}var sp2=ch.getSoulPalace?ch.getSoulPalace():null,bp2=ch.getBodyPalace?ch.getBodyPalace():null;if(sp2&&p&&p.index===sp2.index)bg+='<div style="display:inline-block;font-size:8px;padding:1px 4px;margin-top:3px;background:rgba(155,35,53,0.3);color:#FF6B6B;border:1px solid rgba(155,35,53,0.5)">命宫</div>';if(bp2&&p&&p.index===bp2.index)bg+='<div style="display:inline-block;font-size:8px;padding:1px 4px;margin-top:3px;background:rgba(100,120,200,0.3);color:#7BA8F0;border:1px solid rgba(100,120,200,0.5)">身宫</div>'}h+='<div class="'+cls.join(" ")+'"><div style="font-size:9px;letter-spacing:2px;color:#B8AA90;opacity:0.6">'+pn+'</div><div style="position:absolute;top:6px;right:6px;font-size:10px;color:#8B7245;opacity:0.4">'+br+'</div><div style="display:flex;flex-direction:column;gap:2px">'+sh+"</div>"+bg+"</div>"}}document.getElementById("pg").innerHTML=h;var sp2f=null;for(var i=0;i<pl.length;i++){if(bc(pl[i])===sb){sp2f=pl[i];break}}var sstars=sp2f?(sp2f.majorStars||[]).map(function(s){return s.name||s}):[],ssn=sstars.join(" ")||"空宫";var cp=null,wp=null,spp=null;for(var i=0;i<pl.length;i++){var pn2=pl[i].name;if(pn2==="careerPalace")cp=pl[i];if(pn2==="wealthPalace")wp=pl[i];if(pn2==="spousePalace")spp=pl[i]}var cs=cp?(cp.majorStars||[]).map(function(s){return s.name||s}).join(" "):"",ws=wp?(wp.majorStars||[]).map(function(s){return s.name||s}).join(" "):"",sss=spp?(spp.majorStars||[]).map(function(s){return s.name||s}).join(" "):"";var nums=["一","二","三","四"];var rh="";rh+='<div style="background:#12121A;border:1px solid rgba(200,169,110,0.1);padding:20px 18px;grid-column:1/-1;border-color:rgba(155,35,53,0.25)"><div style="font-size:10px;letter-spacing:3px;color:#8B7245">命盘底色</div><div style="font-size:16px;color:#C8A96E;font-weight:600">'+ssn+'</div><div style="font-size:13px;line-height:1.9;color:#B8AA90">'+gi(sstars,"命宫")+"</div></div>";rh+='<div style="background:#12121A;border:1px solid rgba(200,169,110,0.1);padding:20px 18px"><div style="font-size:10px;letter-spacing:3px;color:#8B7245">事业</div><div style="font-size:16px;color:#C8A96E;font-weight:600">'+(cs||"--")+'</div><div style="font-size:13px;line-height:1.9;color:#B8AA90">'+gi(cs?cs.split(" "):[],"官禄宫")+"</div></div>";rh+='<div style="background:#12121A;border:1px solid rgba(200,169,110,0.1);padding:20px 18px"><div style="font-size:10px;letter-spacing:3px;color:#8B7245">财运</div><div style="font-size:16px;color:#C8A96E;font-weight:600">'+(ws||"--")+'</div><div style="font-size:13px;line-height:1.9;color:#B8AA90">'+gi(ws?ws.split(" "):[],"财帛宫")+"</div></div>";rh+='<div style="background:#12121A;border:1px solid rgba(200,169,110,0.1);padding:20px 18px;grid-column:1/-1"><div style="font-size:10px;letter-spacing:3px;color:#8B7245">感情</div><div style="font-size:16px;color:#C8A96E;font-weight:600">'+(sss||"--")+'</div><div style="font-size:13px;line-height:1.9;color:#B8AA90">'+gi(sss?sss.split(" "):[],"夫妻宫")+"</div></div>";document.getElementById("rc").innerHTML=rh;var qs=[{t:"目前工作性质？",h:"与命盘主星是否吻合"},{t:"感情状态如何？",h:"夫妻宫星曜对照"},{t:"近1-2年有转折或压力？",h:"辅助判断大限"},{t:"父母哪一方影响更深？",h:"父母宫验证"},{t:"有反复健康问题？",h:"疾厄宫对照"}];var n2=["一","二","三","四","五"];var qh="";for(var i=0;i<qs.length;i++){qh+='<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px"><div style="font-size:16px;color:rgba(200,169,110,0.3);font-weight:700;width:24px;flex-shrink:0">'+n2[i]+'</div><div style="font-size:13px;color:#F2EBD9;line-height:1.7">'+qs[i].t+'<span style="display:block;font-size:10px;color:#B8AA90;margin-top:3px">'+qs[i].h+"</span></div></div>"}document.getElementById("cq").innerHTML=qh}
+function bf(){document.getElementById("cs").classList.remove("sh");document.getElementById("fm").style.display="block";document.getElementById("ec").innerHTML="";window.scrollTo(0,0)}
+// Event bindings
+document.getElementById("sm").onclick=cc;
+document.getElementById("btnBack").onclick=bf;
+document.getElementById("btnSolar").onclick=function(){ct="solar";this.classList.add("on");document.getElementById("btnLunar").classList.remove("on");document.getElementById("llg").style.display="none"};
+document.getElementById("btnLunar").onclick=function(){ct="lunar";this.classList.add("on");document.getElementById("btnSolar").classList.remove("on");document.getElementById("llg").style.display="block"};
+document.getElementById("btnLeapNo").onclick=function(){lp=false;this.classList.add("on");document.getElementById("btnLeapYes").classList.remove("on")};
+document.getElementById("btnLeapYes").onclick=function(){lp=true;this.classList.add("on");document.getElementById("btnLeapNo").classList.remove("on")};
 </script>
 </bodyvar ct="solar",lp=false;
 var PA={soul:"\u547d\u5bab",parents:"\u7236\u6bcd\u5bab",spirit:"\u798f\u5fb7\u5bab",property:"\u7530\u5b85\u5bab",career:"\u5b98\u7984\u5bab",friends:"\u4ea4\u53cb\u5bab",surface:"\u8fc1\u79fb\u5bab",health:"\u75be\u5384\u5bab",wealth:"\u8d22\u5e1b\u5bab",children:"\u5b50\u5973\u5bab",spouse:"\u592b\u59bb\u5bab",siblings:"\u5144\u5f1f\u5bab"};
